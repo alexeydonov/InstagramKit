@@ -36,8 +36,8 @@ extension Instagram.Engine {
         let scopeString = stringForScope(scope)
 
         return [
-            "client_id" : appClientID!.addingPercentEncoding(withAllowedCharacters: .alphanumerics),
-            "redirect_url" : appRedirectURL!.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics),
+            "client_id" : appClientID!.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!,
+            "redirect_url" : appRedirectURL!.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!,
             "response_type" : "token",
             "scope" : scopeString
         ]
