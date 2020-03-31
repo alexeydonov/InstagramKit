@@ -8,6 +8,7 @@
 import Foundation
 
 extension Instagram.Engine {
+
     func emptyResponseHandler(for completion: @escaping (Result<Void, Error>) -> Void) -> ((Result<Instagram.EmptyResponse, Error>) -> Void) {
         return {
             switch $0 {

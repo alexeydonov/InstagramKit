@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Instagram.Engine {
+public extension Instagram.Engine {
 
     func getUserDetails(userId: String, completion: @escaping (Result<Instagram.User, Error>) -> Void) {
         let endpoint = Constant.URL.baseURL

@@ -8,9 +8,9 @@
 import Foundation
 import CoreLocation
 
-extension Instagram {
+public extension Instagram {
 
-    public class Engine {
+    class Engine {
 
         public static let shared = Engine()
 

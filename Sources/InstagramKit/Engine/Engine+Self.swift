@@ -7,9 +7,9 @@
 
 import Foundation
 
-extension Instagram.Engine {
+public extension Instagram.Engine {
 
-    public func getSelfUserDetails(completion: @escaping (Result<Instagram.User, Error>) -> Void) {
+    func getSelfUserDetails(completion: @escaping (Result<Instagram.User, Error>) -> Void) {
         getUserDetails(userId: "self", completion: completion)
     }
     
