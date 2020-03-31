@@ -46,13 +46,13 @@ extension Instagram.Engine {
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
         print("Instagram: validating token in \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else {
+            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value?.removingPercentEncoding.flatMap({ URL(string: $0) }) else {
                 print("Instagram: No redirect_url")
                 return false
         }
 
         guard appRedirectURL.scheme == redirectURL.scheme, appRedirectURL.host == redirectURL.host else {
-            print("Instagram: Different schemes/host: \(appRedirectURL.scheme)/\(redirectURL.scheme) and \(appRedirectURL.host)/\(redirectURL.host)")
+            print("Instagram: Different schemes/host: \(appRedirectURL)/ and \(redirectURL)")
             return false
         }
 
