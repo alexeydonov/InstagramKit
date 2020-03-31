@@ -16,7 +16,7 @@ public extension Instagram.Engine {
     func authorizationURLForScope(_ scope: Instagram.Scope) -> URL {
         let parameters = authorizationParametersWithScope(scope)
 
-        var components = URLComponents(url: authorizationURL(), resolvingAgainstBaseURL: false)!
+        var components = URLComponents(url: Constant.URL.authorizationURL, resolvingAgainstBaseURL: false)!
         var items: [URLQueryItem] = []
         for (key, value) in parameters {
             items.append(URLQueryItem(name: key, value: value))
