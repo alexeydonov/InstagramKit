@@ -10,7 +10,7 @@ import CoreLocation
 
 public extension Instagram {
 
-    class Engine {
+    public class Engine {
 
         public static let shared = Engine()
 

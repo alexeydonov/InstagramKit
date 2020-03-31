@@ -9,11 +9,11 @@ import Foundation
 
 public extension Instagram.Engine {
     
-    func authorizationURL() -> URL {
+    public func authorizationURL() -> URL {
         return authorizationURLForScope(.basic)
     }
 
-    func authorizationURLForScope(_ scope: Instagram.Scope) -> URL {
+    public func authorizationURLForScope(_ scope: Instagram.Scope) -> URL {
         let parameters = authorizationParametersWithScope(scope)
 
         var components = URLComponents(url: authorizationURL(), resolvingAgainstBaseURL: false)!
@@ -26,15 +26,15 @@ public extension Instagram.Engine {
         return components.url!
     }
 
-    func receivedValidAccessToken(from url: URL) throws -> Bool {
+    public func receivedValidAccessToken(from url: URL) throws -> Bool {
         return try validAccessTokenFromURL(url, appRedirectURL: appRedirectURL!)
     }
 
-    func isSessionValid() -> Bool {
+    public func isSessionValid() -> Bool {
         return accessToken != nil
     }
 
-    func logout() {
+    public func logout() {
         let storage = HTTPCookieStorage.shared
         storage.cookies?.forEach {
             if $0.domain.contains("instagram.com") {
