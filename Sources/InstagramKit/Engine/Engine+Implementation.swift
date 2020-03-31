@@ -26,8 +26,8 @@ extension Instagram.Engine {
         let scopeString = stringForScopes(scopes)
 
         return [
-            "client_id" : appClientID!.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!,
-            "redirect_uri" : appRedirectURL!.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!,
+            "client_id" : appClientID!,
+            "redirect_uri" : appRedirectURL!.absoluteString,
             "response_type" : "token",
             "scope" : scopeString
         ]
@@ -36,7 +36,7 @@ extension Instagram.Engine {
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
         print("Instagram: validating token in \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_uri" })?.value?.removingPercentEncoding.flatMap({ URL(string: $0) }) else {
+            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_uri" })?.value?.flatMap({ URL(string: $0) }) else {
                 print("Instagram: No redirect_uri")
                 return false
         }
