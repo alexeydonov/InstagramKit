@@ -9,19 +9,13 @@ import Foundation
 
 extension Instagram {
 
-    public struct Scope: OptionSet {
-        public let rawValue: Int
-
-        public init(rawValue: Int) {
-            self.rawValue = rawValue
-        }
-
-        static let basic = Scope([])
-        static let comments = Scope(rawValue: 1<<1)
-        static let relationships = Scope(rawValue: 1<<2)
-        static let likes = Scope(rawValue: 1<<3)
-        static let publicContent = Scope(rawValue: 1<<4)
-        static let followerList = Scope(rawValue: 1<<5)
+    public enum Scope: String, Hashable {
+        case basic = "basic"
+        case comments = "comments"
+        case relationships = "relationships"
+        case likes = "likes"
+        case publicContent = "public_content"
+        case followerList = "follower_list"
     }
 
 }
