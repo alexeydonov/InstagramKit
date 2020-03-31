@@ -1,3 +1,4 @@
-struct InstagramKit {
-    var text = "Hello, World!"
+/// Namespace for InstagramKit framework types
+public enum Instagram {
+
 }
