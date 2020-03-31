@@ -36,20 +36,30 @@ extension Instagram.Engine {
         let scopeString = stringForScope(scope)
 
         return [
-            "client_id" : appClientID!,
-            "redirect_url" : appRedirectURL!.absoluteString,
+            "client_id" : appClientID!.addingPercentEncoding(withAllowedCharacters: .alphanumerics),
+            "redirect_url" : appRedirectURL!.absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics),
             "response_type" : "token",
             "scope" : scopeString
         ]
     }
 
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
+        print("Instagram: validating token in \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else { return false }
+            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else {
+                print("Instagram: No redirect_url")
+                return false
+        }
 
-        guard appRedirectURL.scheme == redirectURL.scheme, appRedirectURL.host == redirectURL.host else { return false }
+        guard appRedirectURL.scheme == redirectURL.scheme, appRedirectURL.host == redirectURL.host else {
+            print("Instagram: Different schemes/host: \(appRedirectURL.scheme)/\(redirectURL.scheme) and \(appRedirectURL.host)/\(redirectURL.host)")
+            return false
+        }
 
-        guard let token = components.queryItems?.first(where: { $0.name == "access_token" })?.value else { return false }
+        guard let token = components.queryItems?.first(where: { $0.name == "access_token" })?.value else {
+            print("Instagram: No token")
+            return false
+        }
 
         accessToken = token
 
