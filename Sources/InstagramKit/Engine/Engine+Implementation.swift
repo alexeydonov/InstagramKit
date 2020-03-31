@@ -43,31 +43,17 @@ extension Instagram.Engine {
         ]
     }
 
-    func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) throws -> Bool {
+    func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
             let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else { return false }
 
-        let identicalURLSchemes = appRedirectURL.scheme == redirectURL.scheme
-        let identicalURLHosts = appRedirectURL.host == redirectURL.host
+        guard appRedirectURL.scheme == redirectURL.scheme, appRedirectURL.host == redirectURL.host else { return false }
 
-        // For app:// base URL, the host is nil.
-        let isAppURL = appRedirectURL.host == nil
-        if !identicalURLSchemes || (!isAppURL && !identicalURLHosts) {
-            return false
-        }
+        guard let token = components.queryItems?.first(where: { $0.name == "access_token" })?.value else { return false }
 
-        let formattedURL = url.fragment ?? url.query ?? ""
+        accessToken = token
 
-        let token = queryStringParametersFromString(formattedURL)["access_token"]
-        let success = (token?.count ?? 0) > 0
-        if success {
-            accessToken = token
-        }
-        else {
-            throw Instagram.Error.authenticationFailed
-        }
-
-        return success;
+        return true
     }
 
     func queryStringParametersFromString(_ string: String) -> [String : String] {

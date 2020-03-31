@@ -26,8 +26,8 @@ public extension Instagram.Engine {
         return components.url!
     }
 
-    func receivedValidAccessToken(from url: URL) throws -> Bool {
-        return try validAccessTokenFromURL(url, appRedirectURL: appRedirectURL!)
+    func receivedValidAccessToken(from url: URL) -> Bool {
+        return validAccessTokenFromURL(url, appRedirectURL: appRedirectURL!)
     }
 
     func isSessionValid() -> Bool {
