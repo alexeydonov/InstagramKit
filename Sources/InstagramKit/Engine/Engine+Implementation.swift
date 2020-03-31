@@ -18,22 +18,12 @@ extension Instagram.Engine {
         }
     }
 
-    func stringForScope(_ scope: Instagram.Scope) -> String {
-        let typeStrings = ["basic", "comments", "relationships", "likes", "public_content", "follower_list"];
-
-        var strings = [String]()
-        typeStrings.enumerated().forEach { (idx, obj) in
-            let enumBitValueToCheck = 1 << idx
-            if scope.rawValue & enumBitValueToCheck != 0 {
-                strings.append(obj)
-            }
-        }
-
-        return strings.joined(separator: " ")
+    func stringForScopes(_ scopes: Set<Instagram.Scope>) -> String {
+        return scopes.map { $0.rawValue }.joined(separator: " ")
     }
 
-    func authorizationParametersWithScope(_ scope: Instagram.Scope) -> [String : String] {
-        let scopeString = stringForScope(scope)
+    func authorizationParametersWithScopes(_ scopes: Set<Instagram.Scope>) -> [String : String] {
+        let scopeString = stringForScopes(scopes)
 
         return [
             "client_id" : appClientID!.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!,

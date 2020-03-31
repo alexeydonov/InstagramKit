@@ -10,11 +10,11 @@ import Foundation
 public extension Instagram.Engine {
     
     func authorizationURL() -> URL {
-        return authorizationURLForScope(.basic)
+        return authorizationURLForScopes([.basic])
     }
 
-    func authorizationURLForScope(_ scope: Instagram.Scope) -> URL {
-        let parameters = authorizationParametersWithScope(scope)
+    func authorizationURLForScopes(_ scopes: Set<Instagram.Scope>) -> URL {
+        let parameters = authorizationParametersWithScopes(scopes)
 
         var components = URLComponents(url: Constant.URL.authorizationURL, resolvingAgainstBaseURL: false)!
         var items: [URLQueryItem] = []
