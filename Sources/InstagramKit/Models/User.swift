@@ -53,7 +53,7 @@ extension Instagram {
             fullName = try container.decodeIfPresent(String.self, forKey: .fullName)
             profilePictureURL = try container.decodeIfPresent(URL.self, forKey: .profilePictureURL)
             bio = try container.decodeIfPresent(String.self, forKey: .bio)
-            website = try container.decodeIfPresent(URL.self, forKey: .website)
+            website = try? container.decodeIfPresent(URL.self, forKey: .website)
             let counters = try container.decode(Counters.self, forKey: .counters)
             mediaCount = counters.media
             followsCount = counters.follows
