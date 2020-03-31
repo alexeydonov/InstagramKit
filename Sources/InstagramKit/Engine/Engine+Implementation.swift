@@ -44,8 +44,8 @@ extension Instagram.Engine {
     }
 
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) throws -> Bool {
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        guard let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else { return false }
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_url" })?.value.flatMap({ URL(string: $0) }) else { return false }
 
         let identicalURLSchemes = appRedirectURL.scheme == redirectURL.scheme
         let identicalURLHosts = appRedirectURL.host == redirectURL.host
