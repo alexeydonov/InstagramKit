@@ -34,24 +34,25 @@ extension Instagram.Engine {
     }
 
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
-        print("Instagram: validating token in \(url)")
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_uri" })?.value.flatMap({ URL(string: $0) }) else {
-                print("Instagram: No redirect_uri")
-                return false
-        }
-
-        guard appRedirectURL.scheme == redirectURL.scheme, appRedirectURL.host == redirectURL.host else {
-            print("Instagram: Different schemes/host: \(appRedirectURL)/ and \(redirectURL)")
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
 
-        guard let token = components.queryItems?.first(where: { $0.name == "access_token" })?.value else {
-            print("Instagram: No token")
+        guard appRedirectURL.scheme == url.scheme, appRedirectURL.host == url.host else {
             return false
         }
 
-        accessToken = token
+        guard let fragment = components.fragment else {
+            return false
+        }
+
+        let parts = fragment.split(separator: "=")
+
+        guard let key = parts.first, key == "access_token", let token = parts.last else {
+            return false
+        }
+
+        accessToken = String(token)
 
         return true
     }
