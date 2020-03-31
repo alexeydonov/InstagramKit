@@ -36,7 +36,7 @@ extension Instagram.Engine {
     func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
         print("Instagram: validating token in \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_uri" })?.value?.flatMap({ URL(string: $0) }) else {
+            let redirectURL = components.queryItems?.first(where: { $0.name == "redirect_uri" })?.value.flatMap({ URL(string: $0) }) else {
                 print("Instagram: No redirect_uri")
                 return false
         }
