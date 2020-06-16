@@ -19,7 +19,7 @@ extension Instagram.Engine {
     }
 
     func stringForScopes(_ scopes: Set<Instagram.Scope>) -> String {
-        return scopes.map { $0.rawValue }.joined(separator: " ")
+        return scopes.map { $0.rawValue }.joined(separator: ",")
     }
 
     func authorizationParametersWithScopes(_ scopes: Set<Instagram.Scope>) -> [String : String] {
@@ -28,53 +28,20 @@ extension Instagram.Engine {
         return [
             "client_id" : appClientID!,
             "redirect_uri" : appRedirectURL!.absoluteString,
-            "response_type" : "token",
+            "response_type" : "code",
             "scope" : scopeString
         ]
     }
 
-    func validAccessTokenFromURL(_ url: URL, appRedirectURL: URL) -> Bool {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return false
+    func codeFromURL(_ url: URL, appRedirectURL: URL) -> String? {
+        guard appRedirectURL.scheme == url.scheme, appRedirectURL.host == url.host,
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            let queryItems = components.queryItems,
+            let codeItem = queryItems.first(where: { $0.name == "code" }) else {
+            return nil
         }
 
-        guard appRedirectURL.scheme == url.scheme, appRedirectURL.host == url.host else {
-            return false
-        }
-
-        guard let fragment = components.fragment else {
-            return false
-        }
-
-        let parts = fragment.split(separator: "=")
-
-        guard let key = parts.first, key == "access_token", let token = parts.last else {
-            return false
-        }
-
-        accessToken = String(token)
-
-        return true
-    }
-
-    func queryStringParametersFromString(_ string: String) -> [String : String] {
-        var result: [String : String] = [:]
-
-        string.components(separatedBy: "&").forEach {
-            let pairs = $0.components(separatedBy: "=")
-            guard pairs.count == 2 else { return }
-
-            var key = pairs[0].removingPercentEncoding!
-            if key.hasPrefix("#") {
-                key = key.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
-            }
-
-            let value = pairs[1].removingPercentEncoding!
-
-            result[key] = value
-        }
-
-        return result
+        return codeItem.value
     }
 
     func dictionaryWithAccessTokenAndParameters(_ params: [String : String]) -> [String : String] {
@@ -142,8 +109,8 @@ extension Instagram.Engine {
 
                 do {
                     if let data = data {
-                        let container = try JSONDecoder().decode(Container<T>.self, from: data)
-                        completion(.success(container.data))
+                        let entity = try JSONDecoder().decode(T.self, from: data)
+                        completion(.success(entity))
                     }
                 }
                 catch {

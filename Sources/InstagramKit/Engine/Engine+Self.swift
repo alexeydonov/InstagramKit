@@ -10,7 +10,10 @@ import Foundation
 public extension Instagram.Engine {
 
     func getSelfUserDetails(completion: @escaping (Result<Instagram.User, Error>) -> Void) {
-        getUserDetails(userId: "self", completion: completion)
+        let endpoint = Constant.URL.baseURL
+            .appendingPathComponent("me")
+
+        sendRequest(to: endpoint, method: .get, parameters: ["fields" : "id,username"], expecting: Instagram.User.self, completion: completion)
     }
     
 }

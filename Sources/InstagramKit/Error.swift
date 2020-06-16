@@ -11,6 +11,7 @@ extension Instagram {
 
     public enum Error: Swift.Error {
         case authenticationFailed
+        case noToken
     }
 
     enum PaginationError: Swift.Error {

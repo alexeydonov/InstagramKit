@@ -7,9 +7,10 @@
 
 import Foundation
 
-public extension Instagram.Engine {
+extension Instagram.Engine {
 
-    func getUserDetails(userId: String, completion: @escaping (Result<Instagram.User, Error>) -> Void) {
+    @available(*, deprecated)
+    internal func getUserDetails(userId: String, completion: @escaping (Result<Instagram.User, Error>) -> Void) {
         let endpoint = Constant.URL.baseURL
             .appendingPathComponent("users")
             .appendingPathComponent(userId)

@@ -10,12 +10,8 @@ import Foundation
 extension Instagram {
 
     public enum Scope: String, Hashable {
-        case basic = "basic"
-        case comments = "comments"
-        case relationships = "relationships"
-        case likes = "likes"
-        case publicContent = "public_content"
-        case followerList = "follower_list"
+        case userProfile = "user_profile"
+        case userMedia = "user_media"
     }
 
 }
